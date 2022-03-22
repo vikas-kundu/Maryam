@@ -24,7 +24,6 @@ import shutil
 import sys
 import shlex
 import json
-import traceback
 import concurrent.futures
 
 from maryam.core import basedir
@@ -414,7 +413,7 @@ class initialize(core):
 	def run_tool(self, func, tool_name, args, output=None):
 		try:
 			if sys.platform == 'darwin' and mp.get_start_method() != 'fork':
-				mp.set_start_method('fork')
+				mp.set_start_method('fork', force=True)
 
 			proc = mp.Process(target=getattr(self, func), args=(tool_name, args, output))
 			proc.start()

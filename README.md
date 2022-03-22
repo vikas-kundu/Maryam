@@ -13,6 +13,7 @@ OWASP Maryam is a modular open-source framework based on OSINT and data gatherin
 ### Supported OS
  - Linux
  - FreeBSD
+ - Darwin
  - OSX
 
 ```bash
@@ -39,14 +40,13 @@ maryam -e set timeout ..
 maryam -e web api 127.0.0.1 1313
 ```
 
-# Updates
-**Last Updates**
+# Latest Updates
 
- - clustering, meta search engine, dark web search
+ - Clustering, Meta Search Engine, Dark-Web Search
  - Iris: the first beta version
- - Add famous_person
- - Speed up the core
- - Add setup.py and change arch
+ - Added famous_person
+ - Core speedup optimizations
+ - Added setup.py
  - Web API: web command
 
 
@@ -57,7 +57,7 @@ Contributes are welcome! Here is a start guide: [Development Guide](https://gith
 You can add a new search engine to the util classes or use the current search engines to write a new module.
 The best help to write a new module is checking the current modules.
 
-## Roadmap
+# Roadmap
 
  - Write a complete metacrawler engine based on OSINT by using the current search engines
  - Add clustering algorithms: Done
