@@ -23,6 +23,7 @@ import subprocess
 import sys
 import traceback
 import requests
+import shlex
 from .util.helpers import rand_uagent
 from textwrap import wrap
 
@@ -284,9 +285,8 @@ class core(cmd.Cmd):
 			try:
 				data = json.loads(file.read())
 			except ValueError:
-				# file is empty or corrupt, nothing to load
 				data = {}
-		# update data
+
 		if module in data:
 			if target in data[module]:
 				if method == []:
@@ -645,7 +645,10 @@ class core(cmd.Cmd):
 		if not params:
 			self.help_report()
 			return
-		arg = params.lower().split(' ')
+		if self._mode == 'execute':
+			arg = sys.argv[3:]
+		else:
+			arg = shlex.split(params)
 		gather_file = os.path.join(self.workspace, 'gather.dat')
 		if not os.path.exists(gather_file):
 			self.alert('No data found.')
@@ -658,7 +661,7 @@ class core(cmd.Cmd):
 				self.error('Gather data is incorrect. Gather is missed!') 
 				return
 
-		if arg[0] == 'saved':
+		if arg[0].lower() == 'saved':
 			if gather_data:
 				for mod in gather_data:
 					self.alert(mod)
@@ -668,12 +671,11 @@ class core(cmd.Cmd):
 				self.output('No result found.')
 			print('')
 			return
-
 		if len(arg) < 3 or len(arg) > 4:
 			self.error("Module name not found")
 			self.help_report()
 			return
-		_format = arg[0]
+		_format = arg[0].lower()
 		if _format not in ('json', 'txt', 'xml', 'csv'):
 			self.error(f"Format '{_format}' doesn't found.")
 			return

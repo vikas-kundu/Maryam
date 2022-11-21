@@ -20,8 +20,8 @@ meta = {
 	'author': 'Kaushik',
 	'version': '0.1',
 	'description': 'Search for scientific papers and articles from Google Scholar \
-			, Arxiv, Pubmed, and Core.ac.uk',
-	'sources': ('scholar', 'arxiv', 'pubmed', 'core_ac'),
+			, Arxiv, and Pubmed',
+	'sources': ('scholar', 'arxiv', 'pubmed'),
 	'options': (
 		('query', None, True, 'Search query for papers or articles', '-q', 'store', str),
 		('limit', 15, False, 'Max result count (default=15)', '-l', 'store', int),
@@ -39,9 +39,9 @@ def module_api(self):
 	scholar.run_crawl()
 	results = scholar.results
 
-	core_ac = self.core_ac(q, limit)
-	core_ac.run_crawl()
-	results.extend(core_ac.results)
+	# core_ac = self.core_ac(q, limit)
+	# core_ac.run_crawl()
+	# results.extend(core_ac.results)
 
 	arxiv = self.arxiv(q, limit)
 	arxiv.run_crawl()

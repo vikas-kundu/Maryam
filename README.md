@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.com/saeeddhqan/maryam.svg?branch=master)](https://travis-ci.com/saeeddhqan/maryam)
-![Version 2.2.6](https://img.shields.io/badge/Version-2.5.0-green.svg)
+[![Build Status](https://app.travis-ci.com/saeeddhqan/Maryam.svg?branch=master)](https://app.travis-ci.com/github/saeeddhqan/Maryam)
+![Version 2.5.1](https://img.shields.io/badge/Version-2.5.1-green.svg)
 ![GPLv3 License](https://img.shields.io/badge/License-GPLv3-green.svg)
-![Python 3.8.x](https://img.shields.io/badge/Python-3.8.x-green.svg)
+![Python 3.10.x](https://img.shields.io/badge/Python-3.10.x-green.svg)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/4577/badge)](https://bestpractices.coreinfrastructure.org/projects/4577)
 
 # OWASP Maryam
@@ -30,9 +30,9 @@ maryam -e dns_search -d ibm.com -t 5 --max --api --form
 maryam -e youtube -q "<QUERY>"
 maryam -e google -q "<QUERY>"
 maryam -e dnsbrute -d domain.tld
-# Show the framework modules
+# Show framework modules
 maryam -e show modules
-# Set framework options. It'll save in the workspace.
+# Set framework options.
 maryam -e set proxy ..
 maryam -e set agent ..
 maryam -e set timeout ..
@@ -42,12 +42,13 @@ maryam -e web api 127.0.0.1 1313
 
 # Latest Updates
 
+ - Added image_search module
  - Clustering, Meta Search Engine, Dark-Web Search
  - Iris: the first beta version
  - Added famous_person
  - Core speedup optimizations
  - Added setup.py
- - Web API: web command
+
 
 
 

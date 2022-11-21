@@ -25,8 +25,8 @@ class main:
 		self.q = q
 		self.agent = 'Mozilla/5.0 (X11; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0'
 		self.xpath_name_original = {
-			'results': '//div[@class="g"]|//div[@class="g tF2Cxc"]',
-			'results_content': './/div[@class="IsZvec"]',
+			'results': '//div[@class="MjjYud"]|//div[@class="g"]|//div[@class="g tF2Cxc"]|//div[@class="g Ww4FFb tF2Cxc"]',
+			'results_content': './/div[@data-content-feature="1"]|.//div[@class="VwiC3b yXK7lf MUxGbd yDYNvb lyLwlc lEBKkf"]',
 			'results_title': './/h3[1]',
 			'results_a': './/div[@class="yuRUbf"]/a',
 			'results_cite': './/div[@class="yuRUbf"]/a//cite'
@@ -85,7 +85,7 @@ class main:
 		card_xpath_name = {
 			'card': '//div[@id="wp-tabs-container"]',
 			'card_content': './/div[@class="kno-rdesc"]',
-			'card_info': './/div[@class="rVusze"]'
+			'card_info': './/div[@class="rVusze"]||'
 		}
 		xpath = {
 			card_xpath_name['card']: [
@@ -115,15 +115,29 @@ class main:
 				card_xpath_social['card_href']
 			]
 		}
+		output = {'content': '', 'info': []}
+		if self._first_page == '':
+			return outputs
 		parser = self.framework.page_parse(self._first_page)
 		xpath_results = parser.html_fromstring(xpath)
 		xpath_results2 = parser.html_fromstring(xpath2)
 		xpath_results3 = parser.html_fromstring(xpath3)
-		output = {'content': '', 'info': []}
+
+
+		content = parser.html_fromstring('.//div[@class="kno-rdesc"]')
+		if content:
+			output['content'] = content[0].text_content()
+		if output['content'].startswith('Description'):
+			output['content'] = output['content'].replace('Description', '')
+
+		for i in parser.html_fromstring('.//div[@class="rVusze"]'):
+			if i.text_content():
+				output['info'].append(i.text_content().replace('\xa0', ' '))
+
 		root = xpath_results[card_xpath_name['card']]
 		root2 = xpath_results2[card_xpath_second['card']]
 		root3 = xpath_results3[card_xpath_social['card']]
-		if root[card_xpath_name['card_content']]:
+		if root[card_xpath_name['card_content']] and output['content'] == '':
 			output['content'] = root[card_xpath_name['card_content']][0].text_content()
 		else:
 			card_xpath_name = {
@@ -139,10 +153,8 @@ class main:
 			}
 			xpath_results = parser.html_fromstring(xpath)
 			root = xpath_results[card_xpath_name['card']]
-			if root[card_xpath_name['card_content']]:
+			if root[card_xpath_name['card_content']] and output['content'] == '':
 				output['content'] = root[card_xpath_name['card_content']][0].text_content()
-			else:
-				output['content'] = ''
 		img = root2[card_xpath_second['card_img']]
 		name = root2[card_xpath_second['card_name']]
 		known_as = root2[card_xpath_second['card_known_as']]
@@ -158,6 +170,7 @@ class main:
 		output['social'] = []
 		for piece in social:
 			output['social'].append(piece.get('href'))
+		output['info'] = list(set(output['info']))
 		return output
 
 	@property
